@@ -3,6 +3,10 @@ const btn1 = document.getElementById("btn");
 const itemlist = document.getElementById("item");
 let totalValue = 0;
 
+const totalElement = document.createElement("li");
+totalElement.textContent = "Total Value of Selling: " + totalValue;
+itemlist.appendChild(totalElement);
+
 myform.addEventListener("submit", (e) => {
   e.preventDefault();
   const selling = document.getElementById("sellingid").value;
@@ -20,7 +24,7 @@ myform.addEventListener("submit", (e) => {
 
     axios
       .post(
-        "https://crudcrud.com/api/eaad93e6a9734fec807cea2826af389a/appointmentData",
+        "https://crudcrud.com/api/68bb7b1d96f340708dcdb35414994da8/appointmentData",
         obj
       )
       .then((result) => {
@@ -44,9 +48,6 @@ function showOnScreen(sell, pro) {
   delbtn.className = "btn btn-danger btn-sm float-right delete";
   delbtn.appendChild(document.createTextNode("Delete"));
   li.appendChild(delbtn);
-
-  li.setAttribute("data-selling", sell);
-
   itemlist.appendChild(li);
 
   totalValue += parseFloat(sell);
@@ -57,23 +58,13 @@ function updateTotalValue(sell) {
 }
 
 function displayTotalValue() {
-  var totalElement = document.createElement("li");
-  // Remove previous total value element if it exists
-  if (totalElement) {
-    totalElement.remove();
-  }
-
-  // Create a new total value element
-  totalElement = document.createElement("p");
-  totalElement.setAttribute("id", "totalValue");
   totalElement.textContent = "Total Value of Selling: " + totalValue;
-  itemlist.appendChild(totalElement);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   axios
     .get(
-      "https://crudcrud.com/api/eaad93e6a9734fec807cea2826af389a/appointmentData"
+      "https://crudcrud.com/api/68bb7b1d96f340708dcdb35414994da8/appointmentData"
     )
     .then((res) => {
       console.log(res);
@@ -92,12 +83,12 @@ itemlist.addEventListener("click", (e) => {
       var li = e.target.parentElement;
       itemlist.removeChild(li);
       var details = li.childNodes[0].textContent.split(" - ");
-      var sellingValue = li.getAttribute("data-selling");
-      updateTotalValue(sellingValue);
+      var deleteValue = parseFloat(details[0]);
+      updateTotalValue(deleteValue);
 
       axios
         .get(
-          "https://crudcrud.com/api/eaad93e6a9734fec807cea2826af389a/appointmentData"
+          "https://crudcrud.com/api/68bb7b1d96f340708dcdb35414994da8/appointmentData"
         )
         .then((res) => {
           console.log(res);
@@ -111,7 +102,7 @@ itemlist.addEventListener("click", (e) => {
 
             axios
               .delete(
-                `https://crudcrud.com/api/eaad93e6a9734fec807cea2826af389a/appointmentData/${item}`
+                `https://crudcrud.com/api/68bb7b1d96f340708dcdb35414994da8/appointmentData/${item}`
               )
               .then((res) => {
                 console.log(res);
